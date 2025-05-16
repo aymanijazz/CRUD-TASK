@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple ToDo List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #e0f7fa; /* Light cyan background */
+      color: #333; /* Dark text color */
+    }
+    h2 {
+      text-align: center;
+      color: #00796b; /* Teal color for the heading */
+    }
+    ul {
+      padding-left: 0;
+      margin: 20px 0; /* Margin around the list */
+    }
+    li {
+      list-style: none;
+      padding: 15px;
+      margin-bottom: 10px;
+      background: #ffffff; /* White background for list items */
+      border: 1px solid #b2ebf2; /* Light cyan border */
+      border-radius: 5px; /* Rounded corners */
+      display: flex;
+      justify-content: space-between;
+      align-items: center; /* Align items vertically */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+    form {
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+      width: 300px; /* or whatever width you want */
+    }
+    button {
+      background-color: #00796b; /* Teal */
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin-left: 5px; /* Space between buttons */
+      cursor: pointer;
+      border-radius: 5px; /* Rounded corners */
+      transition: background-color 0.3s; /* Smooth transition */
+    }
+    button:hover {
+      background-color: #004d40; /* Darker teal on hover */
+    }
+    input[type="text"] {
+      padding: 10px;
+      margin-right: 5px; /* Space between input and button */
+      border: 1px solid #b2ebf2; /* Light cyan border */
+      border-radius: 5px; /* Rounded corners */
+      width: 200px; /* Width of the input field */
+    }
+    /* Additional styling for the main form */
+    .main-form {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px; /* Space below the form */
+    }
+    .main-form input {
+      flex: 1; /* Allow input to take available space */
+    }
+    .update-form {
+      display: flex; /* Use flexbox for alignment */
+      align-items: center; /* Center items vertically */
+    }
+  </style>
+</head>
+<body>
+  <h2>My ToDo List</h2>
+
+  <form action="/add" method="POST" class="main-form">
+    <input type="text" name="task" placeholder="Enter task" required>
+    <button type="submit">Add</button>
+  </form>
+
+  <ul>
+    <% if (tasks && tasks.length > 0) { %>
+      <% tasks.forEach(function(task, index) { %>
+        <li>
+          <%= task.text %>
+          <form action="/delete" method="POST" style="margin: 0;">
+            <input type="hidden" name="index" value="<%= index %>">
+            <button type="submit">Delete</button>
+          </form>
+          <form action="/update" method="POST" class="update-form" style="margin: 0;">
+            <input type="text" name="updatedTask" placeholder="Update task" required>
+            <input type="hidden" name="index" value="<%= index %>">
+            <button type="submit">Update</button>
+          </form>
+        </li>
+      <% }) %>
+    <% } else { %>
+      <li>No tasks yet!</li>
+    <% } %>
+  </ul>
+</body>
+</html>
